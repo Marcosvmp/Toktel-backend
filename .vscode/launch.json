@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ControleDeNotaApplication<controle-de-nota>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Controlnote.controle.de.nota.ControleDeNotaApplication",
+            "projectName": "controle-de-nota",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
