@@ -1,5 +1,6 @@
 package com.Controlnote.controle.de.nota.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.GeneratedValue;
@@ -17,8 +18,23 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+
+	@Column(unique = true)
 	private String contact;
+
+	@Column(unique = true)
 	private String email;
+
+	@Column(unique = true)
+	private String cpf;
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
 	@OneToMany(mappedBy = "client")
 	private List<Phone> phone;
