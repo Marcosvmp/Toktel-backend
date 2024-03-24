@@ -9,4 +9,7 @@ import com.Controlnote.controle.de.nota.models.Client;
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Optional<Client> findByCpf(String cpf);
 
+    Optional<Client> findById(Long id);
+
+    Optional<Client> findByName(String name);
 }
