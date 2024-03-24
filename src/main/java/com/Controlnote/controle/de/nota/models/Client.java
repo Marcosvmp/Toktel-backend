@@ -28,6 +28,10 @@ public class Client {
 	@Column(unique = true)
 	private String cpf;
 
+	public Long getId() {
+		return id;
+	}
+
 	public String getCpf() {
 		return cpf;
 	}

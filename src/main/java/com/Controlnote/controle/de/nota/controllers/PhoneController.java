@@ -56,7 +56,7 @@ public class PhoneController {
 	@PostMapping
 	public String save(@RequestBody Phone phone) {
 
-		Optional<Client> optionalClient = clientRepository.findByName(phone.getClient().getName());
+		Optional<Client> optionalClient = clientRepository.findById(phone.getClient().getId());
 		if (optionalClient.isPresent()) {
 
 			phone.setClient(optionalClient.get());
