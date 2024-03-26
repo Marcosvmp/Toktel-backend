@@ -17,7 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.Controlnote.controle.de.nota.models.Client;
+import com.Controlnote.controle.de.nota.models.Phone;
 import com.Controlnote.controle.de.nota.repository.ClientRepository;
+import com.Controlnote.controle.de.nota.repository.PhoneRepository;
+
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.OneToMany;
 
 @RestController
 @RequestMapping(value = "/client")
@@ -26,6 +31,20 @@ public class ClientController {
     @Autowired
     ClientRepository clientRepository;
 
+    @Autowired
+    PhoneRepository phoneRepository;
+
+    @OneToMany(mappedBy = "client")
+    private List<Phone> phones;
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
+    }
+
     @PostMapping
     public String save(@RequestBody Client client) {
 
@@ -33,6 +52,14 @@ public class ClientController {
 
         return "SALVO COM SUCESSO!";
     }
+
+    // @PostMapping
+    // public String save(@RequestBody Client client) {
+
+    // clientRepository.save(client);
+
+    // return "SALVO COM SUCESSO!";
+    // }
 
     @GetMapping
     public List<Client> findAll() {
@@ -47,8 +74,15 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        clientRepository.deleteById(id);
+    public String deleteById(@PathVariable Long id) {
+        Optional<Client> optionalClient = clientRepository.findById(id);
+
+        if (optionalClient.isPresent()) {
+            clientRepository.deleteById(id);
+            return "Cliente deletado com sucesso!";
+        } else {
+            return "Cliente não encontrado";
+        }
     }
 
     @PutMapping("/{id}")
@@ -72,14 +106,14 @@ public class ClientController {
         }
     }
 
-    @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<Client> findByCpf(@PathVariable String cpf) {
-        Optional<Client> optionalClient = clientRepository.findByCpf(cpf);
-        if (optionalClient.isPresent()) {
-            return ResponseEntity.ok(optionalClient.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    // @GetMapping("/cpf/{cpf}")
+    // public ResponseEntity<Client> findByCpf(@PathVariable String cpf) {
+
+    // if (clientRepository.existsByCpf(cpf)) {
+    // return ResponseEntity.ok(optionalClient.get());
+    // } else {
+    // return ResponseEntity.notFound().build();
+    // }
+    // }
 
 }

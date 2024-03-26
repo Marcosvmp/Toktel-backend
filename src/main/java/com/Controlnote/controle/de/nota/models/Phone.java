@@ -44,4 +44,8 @@ public class Phone {
     @NotNull
     private Client client;
 
+    public Long getId() {
+        return id;
+    }
+
 }

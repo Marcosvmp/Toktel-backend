@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.Controlnote.controle.de.nota.models.Client;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
-    Optional<Client> findByCpf(String cpf);
+    Boolean existsByEmail(String email);
 
-    Optional<Client> findById(Long id);
+    Boolean existsByContact(String contact);
 
-    Optional<Client> findByName(String name);
+    Boolean existsByCpf(String cpf);
+
 }
