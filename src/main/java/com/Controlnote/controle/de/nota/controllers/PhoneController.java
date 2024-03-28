@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Controlnote.controle.de.nota.dtos.PhoneDTO;
 import com.Controlnote.controle.de.nota.models.Client;
 import com.Controlnote.controle.de.nota.models.Phone;
 import com.Controlnote.controle.de.nota.repository.ClientRepository;
 import com.Controlnote.controle.de.nota.repository.PhoneRepository;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.ElementCollection;
 
@@ -62,52 +65,30 @@ public class PhoneController {
 		}
 	}
 
-	// @PostMapping
-	// public String save(@RequestBody Phone phone) {
-	// if (clientRepository.existsById(phone.getClient().getId())) {
-
-	// phonerepository.save(phone);
-
-	// return "to aqui dentro";
-	// } else {
-
-	// return "to aqui";
-	// }
-
-	// Optional<Client> optionalClient =
-	// clientRepository.findById(phone.getClient().getId());
-	// if (optionalClient.isPresent()) {
-
-	// phone.setClient(optionalClient.get());
-	// phonerepository.save(phone);
-	// return "SALVO COM SUCESSO!";
-	// } else {
-	// return "Cliente não encontrado";
-	// }
-	// }
-
 	@PostMapping
-	public String save(@RequestBody(value = "phones") Phone phones) {
-		System.out.println(phones);
+	public String save(@RequestBody PhoneDTO phones) {
 
-		if (clientRepository.existsByCpf(phones.getClient().getCpf())) {
+		if (clientRepository.existsByCpf(phones.client().getCpf())) {
 			return "CPF JÁ EXISTE";
 		}
 
-		if (clientRepository.existsByEmail(phones.getClient().getEmail())) {
+		if (clientRepository.existsByEmail(phones.client().getEmail())) {
 			return "EMAIL JÁ EXISTE";
 		}
 
-		if (clientRepository.existsByContact(phones.getClient().getContact())) {
+		if (clientRepository.existsByContact(phones.client().getContact())) {
 			return "Telefone JÁ EXISTE";
 		}
 
-		Client client = clientRepository.save(phones.getClient());
+		Client client = clientRepository.save(phones.client());
 
-		phones.setClient(client);
-		phonerepository.save(phones);
+		for (var i = 0; i < phones.phones().size(); i++) {
+			phones.phones().get(i).setClient(client);
+		}
 
-		return "tudo certo";
+		phonerepository.saveAll(phones.phones());
+
+		return "Salvo com sucesso!";
 	}
 
 }

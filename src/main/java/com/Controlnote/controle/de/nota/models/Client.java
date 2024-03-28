@@ -76,4 +76,9 @@ public class Client {
 		this.contact = contact;
 	}
 
+	public boolean existsById() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'existsById'");
+	}
+
 }

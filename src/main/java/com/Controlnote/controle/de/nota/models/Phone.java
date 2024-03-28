@@ -1,5 +1,7 @@
 package com.Controlnote.controle.de.nota.models;
 
+import java.util.Optional;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
